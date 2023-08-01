@@ -85,10 +85,6 @@ const createUser = async (req, res, next) => {
       next(new ConflictError('email уже существует'));
       return;
     }
-    // if (err instanceof ValidationError) {
-    //   next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
-    //   return;
-    // }
     next(err);
   }
 };

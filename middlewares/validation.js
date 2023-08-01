@@ -9,7 +9,7 @@ const loginValidation = celebrate({
 
 const getUserByIdValidation = celebrate({
   params: Joi.object().keys({
-    userId: Joi.string().length(24),
+    userId: Joi.string().hex().required().length(24),
   }),
 });
 
@@ -23,11 +23,16 @@ const createUserValidation = celebrate({
   }),
 });
 
-const updateUserValidation = celebrate({
+const updateUserInfoValidation = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
-    avatar: Joi.string().pattern(/(https?:\/\/)(w{3}\.)?(\w-?)+\.[A-Za-z0-9](-\._~:\/?#\[]@!$&'()*\+,;=#?)?/),
+    name: Joi.string().min(2).max(30).required(),
+    about: Joi.string().min(2).max(30).required(),
+  }),
+});
+
+const updateUserAvatarValidation = celebrate({
+  body: Joi.object().keys({
+    avatar: Joi.string().pattern(/(https?:\/\/)(w{3}\.)?(\w-?)+\.[A-Za-z0-9](-\._~:\/?#\[]@!$&'()*\+,;=#?)?/).required(),
   }),
 });
 
@@ -40,22 +45,16 @@ const createCardValidation = celebrate({
 
 const cardIdValidation = celebrate({
   params: Joi.object().keys({
-    cardId: Joi.string().length(24),
+    cardId: Joi.string().hex().length(24).required(),
   }),
-});
-
-const authorizationValidation = celebrate({
-  headers: Joi.object().keys({
-    authorization: Joi.string().required(),
-  }).unknown(true),
 });
 
 module.exports = {
   loginValidation,
   getUserByIdValidation,
   createUserValidation,
-  updateUserValidation,
-  createCardValidation,
+  updateUserInfoValidation,
+  updateUserAvatarValidation,
   cardIdValidation,
-  authorizationValidation,
+  createCardValidation,
 };
