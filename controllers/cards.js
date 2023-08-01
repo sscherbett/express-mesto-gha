@@ -6,6 +6,7 @@ const {
 } = require('../utils/constants');
 const BadRequestError = require('../errors/bad-request-err');
 const NotFoundError = require('../errors/not-found-err');
+const ForbiddenError = require('../errors/forbidden-err');
 
 const getAllCards = async (req, res, next) => {
   try {
@@ -42,8 +43,11 @@ const deleteCard = async (req, res, next) => {
       res.status(ERROR_CODE_OK).send({
         message: 'Карточка удалена',
       });
+    } else {
+      throw new ForbiddenError('Отсутствуют права для удаления карточки');
     }
   } catch (err) {
+    res.send(err.message);
     if (err instanceof CastError) {
       next(new BadRequestError('Передан некорректный _id карточки'));
       return;
