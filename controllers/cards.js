@@ -39,7 +39,7 @@ const deleteCard = async (req, res, next) => {
     }
 
     if (req.user._id === card.owner.toString()) {
-      await Card.deleteOne({ _id: req.params.cardId });
+      await Card.deleteOne(card);
       res.status(ERROR_CODE_OK).send({
         message: 'Карточка удалена',
       });
