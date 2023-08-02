@@ -47,7 +47,6 @@ const deleteCard = async (req, res, next) => {
       throw new ForbiddenError('Отсутствуют права для удаления карточки');
     }
   } catch (err) {
-    res.send(err.message);
     if (err instanceof CastError) {
       next(new BadRequestError('Передан некорректный _id карточки'));
       return;
